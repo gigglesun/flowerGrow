@@ -52,7 +52,8 @@ def create_image_with_ball(width, height, points, ball_size):
     # draw.ellipse takes a 4-tuple (x0, y0, x1, y1) where (x0, y0) is the top-left bound of the box
     # and (x1, y1) is the lower-right bound of the box.
     for point in points:
-        draw.ellipse((point[0], point[1], point[0] + ball_size, point[1] + ball_size), fill='gray')
+        draw.ellipse((point[0] + width / 2.0, point[1] + height / 2.0, point[0] + ball_size + width / 2.0, point[1] +
+            ball_size + height / 2.0), fill='gray')
     return img
 
 
@@ -60,10 +61,10 @@ if __name__ == '__main__':
 
     # Create the frames
     frames = []
-    ratio = 1.618
-    x0, y0 = 200,200
-    points = [(200, 200)]
-    deltaLen = 2
+    ratio = 0.36
+    x0, y0 = 0,0
+    points = [(x0, y0)]
+    deltaLen = 1
     for index in range(150):
         if len(points) == 1:
             points.append((200, 200 - deltaLen))
@@ -85,11 +86,10 @@ if __name__ == '__main__':
             lenB = deltaLen
             point = solve(lenA, lenB, x1, y1, ratio)
             points.append(point)
-            print points
 
 
-    new_frame = create_image_with_ball(200, 200, points, 40)
+    new_frame = create_image_with_ball(1200, 1200, points, 40)
     frames.append(new_frame)
 
     # Save into a GIF file that loops forever
-    frames[0].save('moving_ball.gif', format='GIF', append_images=frames[1:], save_all=True, duration=100, loop=0)
+    frames[0].save('moving_ball.gif', format='GIF', append_images=frames[1:], save_all=True, duration=1000, loop=5)
